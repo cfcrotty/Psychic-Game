@@ -1,6 +1,8 @@
 var winScore = 0;
 var lossesScore = 0;
-var guessLeftScore = 10;
+var guessLeftScore = 9;
+var userGuesses = [];
+var computerChoose = [];
 
 var winsTally = document.getElementById("wins");
 var lossesTally = document.getElementById("losses");
@@ -15,11 +17,13 @@ var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l
 document.onkeyup = function (event) {
     // Determines which key was pressed.
     var userGuess = event.key;
-    userText.textContent = event.key;
-
+    userGuesses.push(userGuess);
+    userText.textContent = userGuesses.toString();
+    
     // Randomly chooses a choice from the options array. This is the Computer's guess.
     var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-    computerText.textContent = computerGuess;
+    computerChoose.push(computerGuess);
+    computerText.textContent = computerChoose.toString();
     userGuess = userGuess.toLowerCase();
     var chk = computerChoices.indexOf(userGuess);
 
