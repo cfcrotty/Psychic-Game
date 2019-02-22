@@ -3,6 +3,8 @@ var lossesScore = 0;
 var guessLeftScore = 9;
 var userGuesses = [];
 var computerChoose = [];
+var resetCC = 1;
+var computerGuess = "";
 
 var winsTally = document.getElementById("wins");
 var lossesTally = document.getElementById("losses");
@@ -17,29 +19,43 @@ var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l
 document.onkeyup = function (event) {
     // Determines which key was pressed.
     var userGuess = event.key;
-    userGuesses.push(userGuess);
-    userText.textContent = userGuesses.toString();
-    
-    // Randomly chooses a choice from the options array. This is the Computer's guess.
-    var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-    computerChoose.push(computerGuess);
-    computerText.textContent = computerChoose.toString();
+    userText.textContent += userGuess+",";
+    if (resetCC) {
+        // Randomly chooses a choice from the options array. This is the Computer's guess.
+        computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+        //computerText.textContent = computerGuess;
+        resetCC=0;
+    }
     userGuess = userGuess.toLowerCase();
     var chk = computerChoices.indexOf(userGuess);
 
     if (chk < 0) {
-        alert("Please enter letters only(a-z).");
+        alert("Please enter letters from a/A-z/Z only.");
     } else if (computerGuess === userGuess) {
         winScore++;
         winsTally.textContent = winScore;
-        guessLeftScore--;
-        guessLeftText.textContent = guessLeftScore;
+        guessLeftText.textContent = 0;
+        resetCC = 1;
+        userText.textContent = "";
+        computerText.textContent = "";
+        guessLeftScore = 9;
     } else {
-        lossesScore++;
-        lossesTally.textContent = lossesScore;
         guessLeftScore--;
         guessLeftText.textContent = guessLeftScore;
+        if (guessLeftScore==0) {
+            lossesScore++;
+            lossesTally.textContent = lossesScore;
+            guessLeftText.textContent = 0;
+            resetCC = 1;
+            userText.textContent = "";
+            computerText.textContent = "";
+            guessLeftScore = 9;
+        }
     }
+    /*
+
+    
+
     if (winsTally.textContent == 10) {
         alert("You win.");
         window.location.href = 'index.html';
@@ -47,4 +63,5 @@ document.onkeyup = function (event) {
         alert("You lost.");
         window.location.href = 'index.html';
     }
+    */
 };
